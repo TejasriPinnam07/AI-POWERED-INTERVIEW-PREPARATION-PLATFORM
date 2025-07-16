@@ -1,3 +1,21 @@
+AI-Powered Interview Preparation Platform
+
+A full-stack Django-based web application to help users prepare for coding and behavioral interviews using AI-generated feedback.
+
+Features
+
+OTP-based signup and login
+
+Monaco code editor with real-world coding questions
+
+Code evaluation using Hugging Face LLaMA model
+
+Behavioral interview dashboard (text + voice input support)
+
+AI feedback for both coding and behavioral answers
+
+Setup Instructions
+
 1.Clone the Repository
 
    git clone https://github.com/TejasriPinnam07/AI-POWERED-INTERVIEW-PREPARATION-PLATFORM
