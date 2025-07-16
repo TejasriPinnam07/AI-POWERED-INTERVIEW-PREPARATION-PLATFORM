@@ -1,0 +1,6 @@
+{% for problem in problems %}
+    <div class="problem-card">
+        <h2>{{ problem.title }} - {{ problem.difficulty|capfirst }}</h2>
+        <p>{{ problem.description }}</p>
+    </div>
+{% endfor %}
