@@ -1,0 +1,7 @@
+transformers>=4.39.0
+torch>=2.0.0
+Django>=5.0,<6.0
+requests>=2.28.1
+python-dotenv>=1.0.0
+gunicorn>=21.2.0  # If you plan to deploy (e.g., PythonAnywhere or Render)
+whitenoise>=6.6.0  # For static file handling in production
