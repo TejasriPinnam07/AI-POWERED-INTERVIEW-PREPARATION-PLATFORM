@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Behavioral Questions</title>
+    <style>
+        .question-card {
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 8px;
+            background: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            min-height: 100px;
+            margin: 10px 0;
+        }
+        .feedback-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f4f4f4;
+            border-left: 5px solid #6C63FF;
+            border-radius: 4px;
+        }
+        button {
+            padding: 8px 16px;
+            background: #6C63FF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #5a52d6;
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'dashboard' %}" style="
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #6C63FF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    ">← Back to Coding Practice</a>
+
+
+    <h1>Behavioral Interview Practice</h1>
+
+    {% for question in questions %}
+    <div class="question-card">
+        <h3>{{ question }}</h3>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <input type="hidden" name="question_index" value="{{ forloop.counter0 }}">
+            <textarea name="answer" id="answer{{ forloop.counter }}" 
+                placeholder="Type or use voice...">{% if submitted_index == forloop.counter0 %}{{ submitted_answer }}{% endif %}</textarea>
+            <div>
+                <button type="button" onclick="startVoice('{{ forloop.counter }}')">🎤 Speak</button>
+                <button type="submit">Submit Answer</button>
+            </div>
+        </form>
+
+        {% if submitted_index == forloop.counter0 and feedback %}
+        <div class="feedback-box">
+            <strong>AI Feedback:</strong>
+            <p>{{ feedback }}</p>
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <script>
+        function startVoice(id) {
+            const textarea = document.getElementById(`answer${id}`);
+            
+            if (!('webkitSpeechRecognition' in window)) {
+                alert("Speech recognition not supported in your browser. Try Chrome or Edge.");
+                return;
+            }
+
+            const recognition = new webkitSpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            recognition.onresult = function(event) {
+                const transcript = event.results[0][0].transcript;
+                textarea.value = transcript;
+            };
+
+            recognition.onerror = function(event) {
+                console.error("Voice error:", event.error);
+                alert("Error in voice recognition: " + event.error);
+            };
+
+            recognition.start();
+        }
+    </script>
+</body>
+</html>
